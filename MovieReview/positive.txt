@@ -22,7 +22,6 @@ thought provoking
 imaginative
 legendary
 unpretentious
-absolutely
 adorable
 accepted
 acclaimed
@@ -187,7 +186,6 @@ now
 nurturing
 nutritious
 okay
-one
 one-hundred percent
 open
 optimistic
@@ -197,8 +195,10 @@ phenomenal
 pleasurable
 plentiful
 pleasant
+pointless
 poised
 polished
+pompous
 popular
 positive
 powerful
@@ -238,6 +238,7 @@ smile
 soulful
 sparkling
 special
+stiff
 spirited
 spiritual
 stirring
@@ -288,3 +289,21 @@ yes
 yummy
 zeal
 zealous
+influential
+everlasting
+favorite
+finest
+elegance
+excitement 
+extraordinary
+favorites
+greatest
+perfectly
+magnificent
+Anti-depression
+qualified
+love
+nominated
+better
+best
+intellegent

@@ -7,6 +7,7 @@ public class Comment {
 	private String author;
 	private String date;
 	private String comment;
+	private String rating;
 	
 	public Comment() {
 		movieid = 0;
@@ -15,6 +16,7 @@ public class Comment {
 		author = "";
 		date = "";
 		comment = "";
+		rating = "Neutral";
 	}
 	
 	public Comment(int movieid, int commentid, String title, String author, String date, String comment) {
@@ -24,6 +26,17 @@ public class Comment {
 		this.author = author;
 		this.date = date;
 		this.comment = comment;
+		rating = "Neutral";
+	}
+	
+	public Comment(int movieid, int commentid, String title, String author, String date, String comment, String rating) {
+		this.movieid = movieid;
+		this.commentid = commentid;
+		this.title = title;
+		this.author = author;
+		this.date = date;
+		this.comment = comment;
+		this.rating = rating;
 	}
 
 	public int getMovieid() {
@@ -74,7 +87,16 @@ public class Comment {
 		this.comment = comment;
 	}
 	
-	public String toString() {
-		return "Title: " + title + "\nAuthor: " + author + "\nDate: " + date + "\nComment: " + comment;
+	public void setRating(String rating){
+		this.rating = rating;
 	}
+	
+	
+	public String getRating(){
+		return rating;
+	}
+	public String toString() {
+		return "Title: " + title + "\nAuthor: " + author + "\nDate: " + date + "\nRating: " + rating + "\nComment: " + comment;
+	}
+	
 }

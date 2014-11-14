@@ -8,7 +8,7 @@ boring
 distasteful
 ordinary
 disgusting
-senseless
+genioussenseless
 static
 brutal
 confused
@@ -46,7 +46,6 @@ beneath
 boring
 broken
 callous
-can't
 clumsy
 coarse
 cold
@@ -83,7 +82,6 @@ dishonest
 dishonorable
 dismal
 distress
-don't
 dreadful
 dreary
 enraged
@@ -155,12 +153,9 @@ nasty
 naughty
 negate
 negative
-never
-no
 nobody
 nondescript
 nonsense
-not
 noxious
 objectionable
 odious
@@ -252,3 +247,8 @@ wound
 yell
 yucky
 zero
+bland
+overrated
+overrate
+annoying
+crap

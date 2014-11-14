@@ -20,9 +20,7 @@ public class DatabaseTest extends TestCase {
      * Called before every test case method.
      */
 	public void setUp() { 
-		movielist = new ArrayList<Movie>();
-		commentlist = new ArrayList<Comment>();
-		database = new Database(movielist, commentlist);
+		database = new Database();
 	}
 
     /**
@@ -35,14 +33,14 @@ public class DatabaseTest extends TestCase {
 	//Test case 1: Test read movie name function by checking the movie name
 	public void testReadMovie(){
 		String result;
-		result = movielist.get(0).getName();
+		result = database.getMovieList().get(0).getName();
 		assertEquals(result, "The Shawshank redemption");		
 	}
 	
 	//Test case 2: Test the read comment function by checking the content of some comment
 	public void testReadComment(){
 		String result;
-		result = commentlist.get(0).getAuthor();
+		result = database.getCommentList().get(0).getAuthor();
 		assertEquals(result, "Carflo");	
 	}
 }

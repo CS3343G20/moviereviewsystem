@@ -6,34 +6,36 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Database {
 	private int movieid;
 	private int commentid;
-	private String title;
-	private String author;
-	private String date;
-	private String comment;
-	private String name;
-	private String year;
-	private String director;
-	private String actor;
-	private String description;
+	private static ArrayList<Movie> movielist = new ArrayList<Movie>();
+	private static ArrayList<Comment> commentlist = new ArrayList<Comment>();
+	private static KeyWord keyWordList = new KeyWord();
 	
-	public Database(ArrayList<Movie> movielist, ArrayList<Comment> commentlist)  {
+	public Database()  {
 		try {
-			readMovie(movielist);
-			readComment(commentlist);
+			readMovie();
+			readComment();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void readMovie(ArrayList<Movie> movielist) throws FileNotFoundException {
+	public void readMovie() throws FileNotFoundException {
 		File filename = new File("movie.txt");	
 		Scanner scan = null;
-		
+
+		String name;
+		String year;
+		String director;
+		String actor;
+		String description;
 		try {
 			scan = new Scanner(filename);
 			scan.useDelimiter("\t|\n");
@@ -56,9 +58,15 @@ public class Database {
 		scan.close();
 	}
 	
-	public void readComment(ArrayList<Comment> commentlist) throws FileNotFoundException {
+	public void readComment() throws FileNotFoundException {
 		File filename = new File("comment.txt");	
 		Scanner scan = null;
+		
+		String title;
+		String author;
+		String date;
+		String comment;
+		String rating = "";
 		
 		try {
 			scan = new Scanner(filename);
@@ -71,9 +79,11 @@ public class Database {
 				author = scan.next();
 				date = scan.next();
 				comment = scan.next();
+				rating = calCommentRating(comment);
 				
-				Comment c = new Comment(movieid, commentid, title, author, date, comment);
+				Comment c = new Comment(movieid, commentid, title, author, date, comment,rating);
 				commentlist.add(c);
+				
 			}
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -98,7 +108,69 @@ public class Database {
 		}
 	}
 	
+	public void addNewComment(Comment commentnew){
+		addToCommentList(commentnew);
+		storeCommentsToDB(commentnew.getMovieid(),commentnew.getCommentid(),commentnew.getTitle(),commentnew.getAuthor(),commentnew.getDate(),commentnew.getComment());
+	}
+	
+	private void addToCommentList(Comment newComment){
+		 commentlist.add(newComment);
+	}
 	public static boolean commentValidation(String input){
 		return (!input.contains("\t") && !(input.trim() == ""));
+	}
+	
+	public ArrayList<Movie> getMovieList(){
+		return movielist;
+	}
+	
+	public ArrayList<Comment> getCommentList(){
+		return commentlist;
+	}
+	
+	private String calCommentRating(String comment){
+		
+		int pos = 0;
+		int neg = 0;
+		int neu = 0;
+		Set<String> words = new HashSet<String>();
+		String delims = "[ \t\n.,?!\"]+";
+		String[] tokens = comment.split(delims);
+		for (int i = 0; i < tokens.length; i++){
+			if (!words.contains(tokens[i]))
+				words.add(tokens[i]);
+		}
+		
+		Iterator it = words.iterator();  
+	    while (it.hasNext()){
+	    	String word = ((String) it.next()).toLowerCase();
+	    	
+	    	if (keyWordList.getPositveKeyWord().contains(word)){
+	    		pos++;
+	    		
+	    	}
+	    	else if (keyWordList.getNegativeKeyWord().contains(word)){
+	    		neg++;
+	    		
+	    	}
+	    	else if (keyWordList.getNeutralKeyWord().contains(word)){
+	    		neu++;
+	    		
+	    	}
+	    }
+	    
+	   
+	    if (pos+neg == 0)
+	    	return "Neutral";
+	    
+	  	if (pos > neg)
+	  		return "Positive";
+	    
+	    if (neg > pos)
+	    	return "Negative";
+	    
+	    
+	    return "Neutral";
+	    
 	}
 }

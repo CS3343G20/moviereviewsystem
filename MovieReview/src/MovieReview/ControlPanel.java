@@ -8,14 +8,13 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class ControlPanel{
-	private static ArrayList<Movie> movielist = new ArrayList<Movie>();
-	private static ArrayList<Comment> commentlist = new ArrayList<Comment>();
-	private static Database mydb = new Database(movielist, commentlist);
-	private static KeyWord keyWordList = new KeyWord();
+	private static Database mydb = new Database();
 	
 	public static void main(String[] args) throws FileNotFoundException {
+
 		viewMovieNames();
 		selectMovie();
+		
 	}
 
 	public static void viewMovieNames() {
@@ -23,8 +22,9 @@ public class ControlPanel{
 		System.out.println("Movies");
 		System.out.println("======");
 		
-		for (int i = 0; i < movielist.size(); i++) {
-			Movie movie = movielist.get(i);
+		
+		for (int i = 0; i < mydb.getMovieList().size(); i++) {
+			Movie movie = mydb.getMovieList().get(i);
 			System.out.println((i+1) + ". " + movie.getName());
 		}
 
@@ -36,8 +36,8 @@ public class ControlPanel{
 		System.out.println("1. View movie information");
 		System.out.println("=========================");
 		
-		for (int i = 0; i < movielist.size(); i++) {
-			Movie movie = movielist.get(i);
+		for (int i = 0; i < mydb.getMovieList().size(); i++) {
+			Movie movie = mydb.getMovieList().get(i);
 			
 			if(mid == movie.getMovieid()) {
 				System.out.print(movie);
@@ -49,9 +49,11 @@ public class ControlPanel{
 		System.out.println("================");
 		System.out.println("2. View comments");
 		System.out.println("================");
+
 		
-		for (int i = 0; i < commentlist.size(); i++) {
-			Comment comment = commentlist.get(i);
+		
+		for (int i = 0; i < mydb.getCommentList().size(); i++) {
+			Comment comment = mydb.getCommentList().get(i);
 			
 			if(mid == comment.getMovieid()) {
 				System.out.println(comment);
@@ -91,13 +93,13 @@ public class ControlPanel{
 		date = dateFormat.format(currentdate);
 		
 		Comment commentnew = new Comment(movieid, commentid, title, author, date, comment);
-		commentlist.add(commentnew);
+		mydb.addNewComment(commentnew);
 		
 		System.out.println("\nNew comment:");
 		System.out.println(commentnew);
 		
 		//Store to DB
-		mydb.storeCommentsToDB(mid, commentid, title, author, date, comment);
+		
 		
 	//	commentscanner.close();
 		
@@ -105,7 +107,7 @@ public class ControlPanel{
 	
 	public static void selectMovie() {
 		Scanner moviescanner = new Scanner(System.in);
-		int totalmovieno = movielist.size();
+		int totalmovieno = mydb.getMovieList().size();
 		int movienum;
 		int mid; 
 		
