@@ -23,24 +23,59 @@ public class ControlPanel{
 	 * @throws FileNotFoundException the file not found exception
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		viewMovieNames();
-		selectMovie();
+		selectMovieOptions();
 	}
-
+	
 	/**
 	 * View movie names.
 	 */
 	public static void viewMovieNames() {
-		System.out.println("======");
-		System.out.println("Movies");
-		System.out.println("======");
+
+		System.out.println();
+		System.out.println("====================");
+		System.out.println("1. Browse movie list");
+		System.out.println("====================");
+			
 		
 		for (int i = 0; i < mydb.getMovieList().size(); i++) {
 			Movie movie = mydb.getMovieList().get(i);
 			System.out.println((i+1) + ". " + movie.getName());
 		}
+		
+		System.out.println();
+	}
+
+	/**
+	 * Select movie options.
+	 */
+	private static void selectMovieOptions() {
+		Scanner optionscanner = new Scanner(System.in);
+		int choice;
 
 		System.out.println();
+		System.out.println("===================");
+		System.out.println("Movie Review System");
+		System.out.println("===================");
+		System.out.println("1. Browse movie list");
+		System.out.println("2. Add a new movie");
+		System.out.println();
+		
+		do {
+			System.out.print("Please select a function: ");
+			choice = optionscanner.nextInt();
+			
+			if (choice == 1) {
+				viewMovieNames();
+				selectMovie();
+			} else if (choice == 2) {
+				addMovie();
+				selectMovieOptions();
+			} else {
+				System.out.println("Your input is invalid, please try again.");
+			}
+			
+		} while (choice != 1 && choice != 2);
+
 	}
 	
 	/**
@@ -49,6 +84,8 @@ public class ControlPanel{
 	 * @param mid the mid
 	 */
 	public static void viewMovieInfo(int mid) {	
+
+		System.out.println();
 		System.out.println("=========================");
 		System.out.println("1. View movie information");
 		System.out.println("=========================");
@@ -63,11 +100,51 @@ public class ControlPanel{
 	}
 	
 	/**
+	 * Adds the movie.
+	 */
+	public static void addMovie() {
+		Scanner moviescanner = new Scanner(System.in);
+		moviescanner.useDelimiter("\n");
+		
+		int movieid = mydb.getMovieList().size();
+		String name;
+		String year;
+		String director;
+		String actor;
+		String description;
+		
+		System.out.println();
+		System.out.println("==================");
+		System.out.println("2. Add a new movie");
+		System.out.println("==================");
+		
+		System.out.print("Name: ");
+		name = moviescanner.nextLine();
+		System.out.print("Year: ");
+		year = moviescanner.nextLine();
+		System.out.print("Director: ");
+		director = moviescanner.nextLine();
+		System.out.print("Actor: ");
+		actor = moviescanner.nextLine();
+		System.out.print("Description: ");
+		description = moviescanner.nextLine();
+		
+		Movie movienew = new Movie(movieid, name, year, director, actor, description);
+		mydb.addNewMovie(movienew);
+		
+		System.out.println("\nNew movie:");
+		System.out.println(movienew);
+		
+	}
+	
+	/**
 	 * View comment.
 	 *
 	 * @param mid the mid
 	 */
 	public static void viewComment(int mid) {
+
+		System.out.println();
 		System.out.println("================");
 		System.out.println("2. View comments");
 		System.out.println("================");
@@ -102,7 +179,7 @@ public class ControlPanel{
 		System.out.println("=================");
 		
 		movieid = mid;
-		commentid = mydb.getCommentList().size()+1;
+		commentid = mydb.getCommentList().size();
 		
 		System.out.print("Author: ");
 		author = commentscanner.nextLine();
@@ -159,19 +236,18 @@ public class ControlPanel{
 		
 		do {
 			System.out.println();
-			System.out.println("=========");
+			System.out.println("========");
 			System.out.println("Function");
-			System.out.println("=========");
+			System.out.println("========");
 			System.out.println("1. View movie information");
 			System.out.println("2. View comments");
 			System.out.println("3. Post a comment");
-			System.out.println("4. Back to main menu");
+			System.out.println("4. Back to movie list");
+			System.out.println("5. Back to main menu");
 			System.out.println();
 			
 			System.out.print("Please select a function: ");
 			choice = functionscanner.nextInt();
-			
-			System.out.println();
 			
 			if (choice == 1) {
 				viewMovieInfo(mid);
@@ -182,12 +258,12 @@ public class ControlPanel{
 			} else if (choice == 4) {
 				viewMovieNames();
 				selectMovie();
+			} else if (choice == 5) {
+				selectMovieOptions();
 			} else {
 				System.out.println("Your input is invalid, please try again.");
 			}
 			
-		} while(choice != 4);
-		
-		functionscanner.close();
+		} while(choice != 5);
 	}
 }

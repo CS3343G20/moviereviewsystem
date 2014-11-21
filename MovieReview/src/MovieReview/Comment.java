@@ -201,7 +201,6 @@ public class Comment {
 		this.rating = rating;
 	}
 	
-	
 	/**
 	 * Gets the rating.
 	 *
