@@ -13,15 +13,6 @@ public class ControlPanelTest extends TestCase {
 	private ControlPanel controlPanel;
 
     /**
-     * Sets up the test fixture.
-     *
-     * Called before every test case method.
-     */
-	public void setUp() { 
-		controlPanel.init(); 
-	}
-
-    /**
      * Tears down the test fixture.
      *
      * Called after every test case method.
@@ -89,7 +80,9 @@ public class ControlPanelTest extends TestCase {
 	public void testViewMovieNames(){
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 	    System.setOut(new PrintStream(outContent));
+	    
 	    controlPanel.viewMovieNames();
+	    
 	    assertTrue(outContent.toString().contains("The Shawshank redemption"));	
 	}
 	

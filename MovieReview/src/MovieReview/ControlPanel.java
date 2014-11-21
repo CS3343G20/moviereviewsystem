@@ -7,21 +7,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ControlPanel.
+ */
 public class ControlPanel{
+	
+	/** The mydb. */
 	private static Database mydb = new Database();
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws FileNotFoundException the file not found exception
+	 */
 	public static void main(String[] args) throws FileNotFoundException {
-
 		viewMovieNames();
 		selectMovie();
-		
 	}
 
+	/**
+	 * View movie names.
+	 */
 	public static void viewMovieNames() {
 		System.out.println("======");
 		System.out.println("Movies");
 		System.out.println("======");
-		
 		
 		for (int i = 0; i < mydb.getMovieList().size(); i++) {
 			Movie movie = mydb.getMovieList().get(i);
@@ -31,6 +43,11 @@ public class ControlPanel{
 		System.out.println();
 	}
 	
+	/**
+	 * View movie info.
+	 *
+	 * @param mid the mid
+	 */
 	public static void viewMovieInfo(int mid) {	
 		System.out.println("=========================");
 		System.out.println("1. View movie information");
@@ -45,13 +62,16 @@ public class ControlPanel{
 		}
 	}
 	
+	/**
+	 * View comment.
+	 *
+	 * @param mid the mid
+	 */
 	public static void viewComment(int mid) {
 		System.out.println("================");
 		System.out.println("2. View comments");
 		System.out.println("================");
 
-		
-		
 		for (int i = 0; i < mydb.getCommentList().size(); i++) {
 			Comment comment = mydb.getCommentList().get(i);
 			
@@ -61,6 +81,11 @@ public class ControlPanel{
 		}
 	}
 	
+	/**
+	 * Post comment.
+	 *
+	 * @param mid the mid
+	 */
 	public static void postComment(int mid) {
 		Scanner commentscanner = new Scanner(System.in);
 		commentscanner.useDelimiter("\n");
@@ -77,9 +102,7 @@ public class ControlPanel{
 		System.out.println("=================");
 		
 		movieid = mid;
-		
-		//to be modified
-		commentid = 1;
+		commentid = mydb.getCommentList().size()+1;
 		
 		System.out.print("Author: ");
 		author = commentscanner.nextLine();
@@ -97,14 +120,11 @@ public class ControlPanel{
 		
 		System.out.println("\nNew comment:");
 		System.out.println(commentnew);
-		
-		//Store to DB
-		
-		
-	//	commentscanner.close();
-		
 	}
 	
+	/**
+	 * Select movie.
+	 */
 	public static void selectMovie() {
 		Scanner moviescanner = new Scanner(System.in);
 		int totalmovieno = mydb.getMovieList().size();
@@ -128,6 +148,11 @@ public class ControlPanel{
 		moviescanner.close();	
 	}
 	
+	/**
+	 * Select function.
+	 *
+	 * @param mid the mid
+	 */
 	public static void selectFunction(int mid) {
 		Scanner functionscanner = new Scanner(System.in);
 		int choice;
@@ -164,10 +189,5 @@ public class ControlPanel{
 		} while(choice != 4);
 		
 		functionscanner.close();
-	}
-
-	public void init() {
-		// TODO Auto-generated method stub
-		
 	}
 }

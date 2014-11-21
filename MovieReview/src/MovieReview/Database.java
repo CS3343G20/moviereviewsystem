@@ -11,13 +11,30 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Database.
+ */
 public class Database {
+	
+	/** The movieid. */
 	private int movieid;
+	
+	/** The commentid. */
 	private int commentid;
+	
+	/** The movielist. */
 	private static ArrayList<Movie> movielist = new ArrayList<Movie>();
+	
+	/** The commentlist. */
 	private static ArrayList<Comment> commentlist = new ArrayList<Comment>();
+	
+	/** The key word list. */
 	private static KeyWord keyWordList = new KeyWord();
 	
+	/**
+	 * Instantiates a new database.
+	 */
 	public Database()  {
 		try {
 			readMovie();
@@ -27,6 +44,11 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Read movie.
+	 *
+	 * @throws FileNotFoundException the file not found exception
+	 */
 	public void readMovie() throws FileNotFoundException {
 		File filename = new File("movie.txt");	
 		Scanner scan = null;
@@ -58,6 +80,11 @@ public class Database {
 		scan.close();
 	}
 	
+	/**
+	 * Read comment.
+	 *
+	 * @throws FileNotFoundException the file not found exception
+	 */
 	public void readComment() throws FileNotFoundException {
 		File filename = new File("comment.txt");	
 		Scanner scan = null;
@@ -92,6 +119,16 @@ public class Database {
 		scan.close();
 	}
 
+	/**
+	 * Store comments to db.
+	 *
+	 * @param movieid the movieid
+	 * @param commentid the commentid
+	 * @param title the title
+	 * @param author the author
+	 * @param date the date
+	 * @param comment the comment
+	 */
 	public static void storeCommentsToDB(int movieid, int commentid, String title, String author, String date, String comment){
 		String comments = movieid + "\t" + commentid + "\t" + title + "\t" + author + "\t" + date + "\t" + comment;
 		try {
@@ -108,26 +145,59 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * Adds the new comment.
+	 *
+	 * @param commentnew the commentnew
+	 */
 	public void addNewComment(Comment commentnew){
 		addToCommentList(commentnew);
 		storeCommentsToDB(commentnew.getMovieid(),commentnew.getCommentid(),commentnew.getTitle(),commentnew.getAuthor(),commentnew.getDate(),commentnew.getComment());
 	}
 	
+	/**
+	 * Adds the to comment list.
+	 *
+	 * @param newComment the new comment
+	 */
 	private void addToCommentList(Comment newComment){
 		 commentlist.add(newComment);
 	}
+	
+	/**
+	 * Comment validation.
+	 *
+	 * @param input the input
+	 * @return true, if successful
+	 */
 	public static boolean commentValidation(String input){
 		return (!input.contains("\t") && !(input.trim() == ""));
 	}
 	
+	/**
+	 * Gets the movie list.
+	 *
+	 * @return the movie list
+	 */
 	public ArrayList<Movie> getMovieList(){
 		return movielist;
 	}
 	
+	/**
+	 * Gets the comment list.
+	 *
+	 * @return the comment list
+	 */
 	public ArrayList<Comment> getCommentList(){
 		return commentlist;
 	}
 	
+	/**
+	 * Cal comment rating.
+	 *
+	 * @param comment the comment
+	 * @return the string
+	 */
 	private String calCommentRating(String comment){
 		
 		int pos = 0;
@@ -171,6 +241,5 @@ public class Database {
 	    
 	    
 	    return "Neutral";
-	    
 	}
 }
