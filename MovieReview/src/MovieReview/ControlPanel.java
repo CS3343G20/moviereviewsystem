@@ -16,6 +16,9 @@ public class ControlPanel{
 	/** The mydb. */
 	private static Database mydb = new Database();
 	
+	/** The my scanner. */
+	private static Scanner myScanner = new Scanner(System.in);
+	
 	/**
 	 * The main method.
 	 *
@@ -23,7 +26,7 @@ public class ControlPanel{
 	 * @throws FileNotFoundException the file not found exception
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		selectMovieOptions();
+		selectMovieOptions(null);
 	}
 	
 	/**
@@ -37,6 +40,7 @@ public class ControlPanel{
 		System.out.println("====================");
 			
 		
+
 		for (int i = 0; i < mydb.getMovieList().size(); i++) {
 			Movie movie = mydb.getMovieList().get(i);
 			System.out.println((i+1) + ". " + movie.getName());
@@ -47,10 +51,16 @@ public class ControlPanel{
 
 	/**
 	 * Select movie options.
+	 *
+	 * @param sc the sc
 	 */
-	private static void selectMovieOptions() {
-		Scanner optionscanner = new Scanner(System.in);
-		int choice;
+	private static void selectMovieOptions(Scanner sc) {
+		Scanner optionscanner;
+		if(sc == null)
+			optionscanner = new Scanner(System.in);
+		else 
+			optionscanner = sc;
+		String choice;
 
 		System.out.println();
 		System.out.println("===================");
@@ -58,23 +68,27 @@ public class ControlPanel{
 		System.out.println("===================");
 		System.out.println("1. Browse movie list");
 		System.out.println("2. Add a new movie");
+		System.out.println("3. Exit");
 		System.out.println();
 		
 		do {
 			System.out.print("Please select a function: ");
-			choice = optionscanner.nextInt();
+			choice = optionscanner.nextLine();
 			
-			if (choice == 1) {
+			if (choice.equals("1")) {
 				viewMovieNames();
-				selectMovie();
-			} else if (choice == 2) {
-				addMovie();
-				selectMovieOptions();
+				selectMovie(optionscanner);
+			} else if (choice.equals("2")) {
+				addMovie(optionscanner);
+				selectMovieOptions(optionscanner);
+			} else if (choice.equals("3")) {
+				optionscanner.close();
+				break;
 			} else {
 				System.out.println("Your input is invalid, please try again.");
 			}
 			
-		} while (choice != 1 && choice != 2);
+		} while (!choice.equals("1") && !choice.equals("2"));
 
 	}
 	
@@ -101,9 +115,16 @@ public class ControlPanel{
 	
 	/**
 	 * Adds the movie.
+	 *
+	 * @param sc the sc
 	 */
-	public static void addMovie() {
+	public static void addMovie(Scanner sc) {
 		Scanner moviescanner = new Scanner(System.in);
+		if(sc == null)
+			moviescanner = new Scanner(System.in);
+		else 
+			moviescanner = sc;
+		
 		moviescanner.useDelimiter("\n");
 		
 		int movieid = mydb.getMovieList().size();
@@ -162,9 +183,15 @@ public class ControlPanel{
 	 * Post comment.
 	 *
 	 * @param mid the mid
+	 * @param sc the sc
 	 */
-	public static void postComment(int mid) {
-		Scanner commentscanner = new Scanner(System.in);
+	public static void postComment(int mid, Scanner sc) {
+		Scanner commentscanner;
+		if(sc == null)
+			commentscanner = new Scanner(System.in);
+		else 
+			commentscanner = sc;
+		
 		commentscanner.useDelimiter("\n");
 		
 		int movieid;
@@ -192,47 +219,68 @@ public class ControlPanel{
 		Date currentdate = new Date();
 		date = dateFormat.format(currentdate);
 		
-		Comment commentnew = new Comment(movieid, commentid, title, author, date, comment);
-		mydb.addNewComment(commentnew);
-		
-		System.out.println("\nNew comment:");
-		System.out.println(commentnew);
+		if (author.length() != 0 && title.length() != 0 && comment.length() != 0) {
+			Comment commentnew = new Comment(movieid, commentid, title, author, date, comment);
+			mydb.addNewComment(commentnew);
+			
+			System.out.println("\nNew comment:");
+			System.out.println(commentnew);
+		} else {
+			System.out.println("Error: Invalid comment. Your comment will not be posted.");
+		}
 	}
 	
 	/**
 	 * Select movie.
+	 *
+	 * @param sc the sc
 	 */
-	public static void selectMovie() {
-		Scanner moviescanner = new Scanner(System.in);
+	public static void selectMovie(Scanner sc) {
+		
+		Scanner moviescanner = new Scanner(System.in);	
+		if(sc == null)
+			moviescanner = new Scanner(System.in);
+		else 
+			moviescanner = sc;
 		int totalmovieno = mydb.getMovieList().size();
 		int movienum;
-		int mid; 
+		int mid;
 		
-		do {
+		do {	
+			System.out.println("Press 0 to exit");
 			System.out.print("Please select a movie: ");
+			String reader = moviescanner.nextLine();
+			try{
+				movienum = Integer.parseInt(reader);
+				mid = movienum-1;
+			}catch(Exception e){
+				mid = -100;
+			}	
 
-			movienum = moviescanner.nextInt();
-			mid = movienum-1;
-			
-			if (movienum > totalmovieno) {
+			if (mid >= 0 && mid < totalmovieno) {
+				selectFunction(mid,moviescanner);
+			} else if (mid == -1){
+				break;
+			} else {
 				System.out.println("Your input is invalid, please try again.");
 			}
-			
-		} while(movienum > totalmovieno);
-		
-		selectFunction(mid);
-		
-		moviescanner.close();	
+		} while (!(mid >= 0 && mid < totalmovieno));
 	}
 	
 	/**
 	 * Select function.
 	 *
 	 * @param mid the mid
+	 * @param sc the sc
 	 */
-	public static void selectFunction(int mid) {
-		Scanner functionscanner = new Scanner(System.in);
-		int choice;
+	public static void selectFunction(int mid, Scanner sc) {
+		Scanner functionscanner;	
+		if(sc == null)
+			functionscanner = new Scanner(System.in);
+		else 
+			functionscanner = sc;
+		
+		String choice;
 		
 		do {
 			System.out.println();
@@ -244,26 +292,30 @@ public class ControlPanel{
 			System.out.println("3. Post a comment");
 			System.out.println("4. Back to movie list");
 			System.out.println("5. Back to main menu");
+			System.out.println("6. Exit");
 			System.out.println();
 			
 			System.out.print("Please select a function: ");
-			choice = functionscanner.nextInt();
+			choice = functionscanner.nextLine();
 			
-			if (choice == 1) {
+			if (choice.equals("1")) {
 				viewMovieInfo(mid);
-			} else if (choice == 2) {
+			} else if (choice.equals("2")) {
 				viewComment(mid);
-			} else if (choice == 3) {
-				postComment(mid);
-			} else if (choice == 4) {
+			} else if (choice.equals("3")) {
+				postComment(mid, functionscanner);
+			} else if (choice.equals("4")) {
 				viewMovieNames();
-				selectMovie();
-			} else if (choice == 5) {
-				selectMovieOptions();
+				selectMovie(functionscanner);
+			} else if (choice.equals("5")) {
+				selectMovieOptions(functionscanner);
+			} else if (choice.equals("6")) {
+				break;
 			} else {
+
 				System.out.println("Your input is invalid, please try again.");
 			}
 			
-		} while(choice != 5);
+		} while(!choice.equals("5"));
 	}
 }

@@ -83,7 +83,7 @@ public class Database {
 	
 	public void addNewMovie(Movie movienew){
 		addToMovieList(movienew);
-		storeMovieToDB(movienew.getMovieid(), movienew.getName(), movienew.getYear(), movienew.getDirector(), movienew.getActor(), movienew.getDescription());
+		storeMovieToDB(movienew);
 	}
 	
 	private void addToMovieList(Movie newMovie){
@@ -139,36 +139,52 @@ public class Database {
 	 * @param date the date
 	 * @param comment the comment
 	 */
-	public static void storeCommentToDB(int movieid, int commentid, String title, String author, String date, String comment){
-		String comments = movieid + "\t" + commentid + "\t" + title + "\t" + author + "\t" + date + "\t" + comment;
-		try {
-			BufferedWriter bwriter = new BufferedWriter(new FileWriter("comment.txt", true));
-			if(validation(title) && validation(author) && validation(date) && validation(comment)) { 
-				bwriter.newLine();
-				bwriter.write(comments);
-			}
-			else
-				System.out.println("Fail: store the comment to database. Your input is not valid.");
-			bwriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void storeCommentToDB(Comment commentnew){
+	   	 String comments = commentnew.getMovieid() + "\t" + commentnew.getCommentid() + "\t" + commentnew.getTitle() + "\t" + commentnew.getAuthor() 
+	   			            + "\t" + commentnew.getDate() + "\t" + commentnew.getComment();
+	   	 
+	   	 try {
+	   		 BufferedWriter bwriter = new BufferedWriter(new FileWriter("comment.txt", true));
+	   		 if(validation(commentnew.getTitle()) && validation(commentnew.getAuthor()) && validation(commentnew.getDate()) && validation(commentnew.getComment())) {
+	   			 bwriter.newLine();
+	   			 bwriter.write(comments);
+	   		 }
+	   		 else
+	   			 System.out.println("Fail: store the comment to database. Your input is not valid.");
+	   		 bwriter.close();
+	   	 } catch (IOException e) {
+	   		 e.printStackTrace();
+	   	 }
 	}
+
 	
-	public static void storeMovieToDB(int movieid, String name, String year, String director, String actor, String description) {
-		String movie = movieid + "\t" + name + "\t" + year + "\t" + director + "\t" + actor + "\t" + description;
-		try {
-			BufferedWriter bwriter = new BufferedWriter(new FileWriter("movie.txt", true));
-			if(validation(name) && validation(year) && validation(director) && validation(actor) && validation(description)) { 
-				bwriter.newLine();
-				bwriter.write(movie);
-			}
-			else
-				System.out.println("Fail: store the movie to database. Your input is not valid.");
-			bwriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	/**
+	 * Store movie to db.
+	 *
+	 * @param movieid the movieid
+	 * @param name the name
+	 * @param year the year
+	 * @param director the director
+	 * @param actor the actor
+	 * @param description the description
+	 */
+    public static void storeMovieToDB(Movie movienew) {
+      	 String movie = movienew.getMovieid() + "\t" + movienew.getName() + "\t" + movienew.getYear() + "\t" + movienew.getDirector() + "\t" + movienew.getActor() 
+      			         + "\t" + movienew.getDescription();
+
+      	 try {
+      		 BufferedWriter bwriter = new BufferedWriter(new FileWriter("movie.txt", true));
+      		 if(validation(movienew.getName()) && validation(movienew.getYear()) && validation(movienew.getDirector()) 
+      		     && validation(movienew.getActor()) && validation(movienew.getDescription())) {
+      			 bwriter.newLine();
+      			 bwriter.write(movie);
+      		 }
+      		 else
+      			 System.out.println("Fail: store the movie to database. Your input is not valid.");
+      		 bwriter.close();
+      	 } catch (IOException e) {
+      		 e.printStackTrace();
+      	 }
 	}
 	
 	/**
@@ -178,7 +194,8 @@ public class Database {
 	 */
 	public void addNewComment(Comment commentnew){
 		addToCommentList(commentnew);
-		storeCommentToDB(commentnew.getMovieid(),commentnew.getCommentid(),commentnew.getTitle(),commentnew.getAuthor(),commentnew.getDate(),commentnew.getComment());
+		storeCommentToDB(commentnew);
+		commentnew.setRating(calCommentRating(commentnew.getComment()));
 	}
 	
 	/**
@@ -197,7 +214,7 @@ public class Database {
 	 * @return true, if successful
 	 */
 	public static boolean validation(String input){
-		return (!input.contains("\t") && !(input.trim() == ""));
+		return (!input.contains("\t") && !("".equals(input.trim())));
 	}
 	
 	/**

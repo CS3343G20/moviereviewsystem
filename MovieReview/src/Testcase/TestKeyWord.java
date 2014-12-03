@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import MovieReview.KeyWord;
 import junit.framework.TestCase;
 
-public class KeyWordTest extends TestCase {
+/**
+ * Test cases in this class will perform unit test on KeyWord.java dependently
+ */
+public class TestKeyWord extends TestCase {
 
 	private KeyWord keyWord;
 
@@ -15,12 +18,6 @@ public class KeyWordTest extends TestCase {
      */
 	public void setUp() { keyWord = new KeyWord(); }
 
-    /**
-     * Tears down the test fixture.
-     *
-     * Called after every test case method.
-     */
-	public void tearDown() {}
 	
 	//Test case 1: Test the getter of positive word
 	public void testGetPositiveWord(){
@@ -42,4 +39,27 @@ public class KeyWordTest extends TestCase {
 		result = keyWord.getNegativeKeyWord();
 		assertTrue(result.contains("moronic"));
 	}
+	
+	//Test case 4: Test compareKeyWord
+	/*public void testCompareKeyWord1(){
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("bus");
+		list.add("keyword1");
+		list.add("apple");
+		
+		String input = "keyword1 keyword2";
+		ArrayList<String> result;
+		result = keyWord.compareKeyWord(input, list);
+		assertTrue(result.contains("keyword1"));
+	}
+	
+	public void testCompareKeyWord2(){
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("bus");
+		
+		String input = "keyword1";
+		ArrayList<String> result;
+		result = keyWord.compareKeyWord(input, list);
+		assertFalse(result.contains("keyword1"));
+	}*/
 }

@@ -59,10 +59,9 @@ public class KeyWord{
 	/**
 	 * Compare key word.
 	 *
-	 * @param input the input
-	 * @param keyWord the key word
 	 * @return the array list
 	 */
+	/*
 	public static ArrayList<String> compareKeyWord(String input, ArrayList<String> keyWord){
 		ArrayList<String> matched = new ArrayList<String>();
 		String[] container = input.split(" ");
@@ -71,7 +70,7 @@ public class KeyWord{
 				matched.add(container[j]);
 		}
 		return matched;
-	}
+	}*/
 	
 	/**
 	 * Gets the positve key word.
